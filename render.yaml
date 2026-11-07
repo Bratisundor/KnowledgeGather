@@ -1,1 +1,27 @@
+services:
+  # 1. ChatChase FastAPI Backend Service
+  - type: web
+    name: chatchase-backend
+    runtime: python
+    buildCommand: "pip install -r backend/requirements.txt"
+    startCommand: "python -m uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT"
+    envVars:
+      - key: PYTHONPATH
+        value: .
+      - key: PYTHON_VERSION
+        value: 3.12.0
+    autoDeploy: true
+
+  # 2. ChatChase Next.js Frontend Service
+  - type: web
+    name: chatchase-frontend
+    runtime: node
+    rootDir: frontend
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm run start"
+    envVars:
+      - key: NODE_VERSION
+        value: 20.x
+    autoDeploy: true
+
 
